@@ -1,0 +1,46 @@
+---
+title: "TASK2"
+author: "MW"
+date: "5/19/2020"
+output: html_document
+---
+
+Summary of the statistics concerning the players’ entire career.
+
+Description: Summary of statistics.
+```{r,echo=FALSE}
+library(knitr)
+library(ISLR)
+attach(Hitters)
+summary(Hitters)
+```
+
+Scatter plot with the players' salaries in relation to the number of runs.
+
+Description: First panel shows E divison, second shows W division. 
+```{r,echo=FALSE}
+library(ggplot2)
+par(mfrow=c(1,2))
+
+g <- ggplot(Hitters, aes(x=Salary, y=Runs)) + geom_point(aes(col=League),na.rm=TRUE)
+g+facet_grid(Hitters$Division)
+```
+
+The 2x2 table summarising the number of players in the leagues and divisions.
+
+Decription: E,W - divisions.
+A,N - leagues
+```{r,echo=FALSE}
+library(knitr)
+m <- aggregate(Hitters[,15], by=list(League), FUN=summary)
+kable(as.matrix(m))
+```
+
+Mean salaries in the two leagues, calculated using a grouping function.
+
+Description: None
+```{r,echo=FALSE}
+library(knitr)
+means <- aggregate(Hitters$Salary, list(League), FUN=mean, na.rm=TRUE) 
+kable(as.matrix(means))
+```
